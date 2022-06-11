@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <script src="vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div id="todolist">
+<h1>To Do LIST</h1>
+<input type="text" v-model="newtodo" @keyup.enter="addtodo"/>
+<button @click="addtodo">+</button>
+<button>-</button>
+<ul><li v-for="todo,index in todos"><label><input type="checkbox"/>{{index+1}}{{todo.title}}</label></li></ul>
+</div>
+    
+<script type="text/javascript">
+let todolist =new Vue({
+    el:"#todolist",
+   data:{
+       newtodo:"",
+       todos:[],
+   },
+   methods:{
+       addtodo:function(){
+           let value=this.newtodo;
+           if(!value){
+               return;
+           }
+           this.todos.push({
+               title:value,
+               done:false
+           });
+           this.newtodo="";
+       }
+   }
+})
+</script>
+<style>
+    .checked{
+        text-decoration: line-through;
+        color:grey;
+    }
+</style>
+</body>
+</html>
