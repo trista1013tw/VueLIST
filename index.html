@@ -12,8 +12,15 @@
 <h1>To Do LIST</h1>
 <input type="text" v-model="newtodo" @keyup.enter="addtodo"/>
 <button @click="addtodo">+</button>
-<button>-</button>
-<ul><li v-for="todo,index in todos"><label><input type="checkbox"/>{{index+1}}{{todo.title}}</label></li></ul>
+<ul>
+    <li v-for="todo,index in todos" @dbclick="editodo(todo)">
+        <input type="checkbox" v-model="todo.done" :id="todo.id"/>
+        <label :class="{'checked':todo.done}" :for="todo.id">第{{index+1}}件事:{{todo.title}}</label>
+        <input type="button" value="-" class="close ml-auto" @click="removetodo(index)" aria-label="Close">
+        </input>
+        </div>
+    </li>
+</ul>
 </div>
     
 <script type="text/javascript">
@@ -22,6 +29,8 @@ let todolist =new Vue({
    data:{
        newtodo:"",
        todos:[],
+       cachetodo:{},
+       cachetitle:"",
    },
    methods:{
        addtodo:function(){
@@ -34,9 +43,27 @@ let todolist =new Vue({
                done:false
            });
            this.newtodo="";
+       },
+       removetodo:function(index){
+        this.todos.splice(index,1);
+       },
+       edittodo:function(todo){
+        console.log(todo);
+        this.cachetodo=item;
+        this.cachetitle=item.title;
+       },
+       canceledit:function(){
+            this.cachetodo={};
+       },
+       doneedit(todo){
+        todo.title=this.cachetitle;
+        this.cachetitle="";
+        this.cachetodo={};
        }
    }
+   
 })
+
 </script>
 <style>
     .checked{
